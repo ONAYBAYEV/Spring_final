@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head >
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Книжный магазин</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<!--    <link rel="stylesheet" type="text/css" th:href="@{'css/bootstrap.min.css'}">-->
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            height: 75px;
+            background-color: #343a40;
+        }
+        .jumbotron {
+            background-image: url('https://pics.livejournal.com/komi_permyak/pic/0009cw68/s640x480');
+            background-size: cover;
+            background-position: center;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: aliceblue;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .jumbotron h1 {
+            font-size: 40px;
+        }
+        .jumbotron p {
+            font-size: 20px;
+        }
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+            margin-bottom: 30px;
+            background-color: #fff;
+        }
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .card-text {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0069d9;
+            border-color: #0062cc;
+        }
+
+        footer {
+            background-color: #343a40;
+            color: #fff;
+            padding: 20px 0;
+        }
+
+        footer h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        footer p {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" >
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Книжная магазин</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarScroll">
+            <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="bs-scroll-height: 100px;">
+                <li class="nav-item" sec:authorize="isAnonymous()">
+                    <a class="nav-link" th:href="@{/sign-in-page}">Войти</a>
+                </li>
+                <li class="nav-item" sec:authorize="isAnonymous()">
+                    <a class="nav-link" th:href="@{/sign-up-page}">Зарегестрироваться</a>
+                </li>
+                <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span th:text="${#authentication.principal.fullname}"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li sec:authorize="hasAnyRole('ROLE_ADMIN')"><a class="dropdown-item" th:href="@{/addbooks}">Добавить книгу </a></li>
+                        <li><a class="dropdown-item"th:href="@{/}">Главная</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" th:href="@{'/admin-panel'}">Панель админа</a></li>
+                        <li><a class="dropdown-item" th:href="@{'/sign-in-page'}">Выйти</a></li>
+                        <li> <a class="dropdown-item"th:href="@{'/update-password-page'}">Изменить пароль</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <form class="d-flex" role="search" th:action="@{'/'}">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="key" th:value ="${param.key!=null?param.key:''}">
+                <button class="btn btn-outline-light" type="submit">Поиск </button>
+            </form>
+        </div>
+    </div>
+</nav>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<!--&lt;!&ndash; Навигационная панель &ndash;&gt;-->
+<!--<nav class="navbar navbar-expand-lg navbar-dark bg-dark" >-->
+<!--    <a class="navbar-brand" href="#">СС</a>-->
+<!--    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"-->
+<!--            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--        <span class="navbar-toggler-icon"></span>-->
+<!--    </button>-->
+<!--    <div class="collapse navbar-collapse" id="navbarNav">-->
+<!--        <ul class="navbar-nav mr-auto">-->
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" th:href="@{/}">Главная</a>-->
+<!--            </li>-->
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" th:href="@{'/update-password-page'}">change password</a>-->
+<!--            </li>-->
+<!--            <li class="nav-item"-->
+<!--                sec:authorize="hasAnyRole('ROLE_ADMIN')">-->
+<!--                <a class="nav-link"-->
+<!--                   th:href="@{/addbooks}">Добавить книгу</a>-->
+<!--            </li>-->
+<!--            <li class="nav-item"-->
+<!--                sec:authorize="isAuthenticated()">-->
+<!--                <a class="nav-link" th:href="@{/sign-in-page}">Sign out</a>-->
+<!--            </li>-->
+<!--            <li class="nav-item"-->
+<!--                sec:authorize="isAnonymous()">-->
+<!--                <a class="nav-link" th:href="@{/sign-in-page}">Sign in</a>-->
+<!--            </li>-->
+<!--            <li class="nav-item"-->
+<!--                sec:authorize="isAnonymous()">-->
+<!--                <a class="nav-link" th:href="@{/sign-up-page}">Sign up</a>-->
+<!--            </li>-->
+<!--            <li class="nav-item"-->
+<!--                sec:authorize="hasAnyRole('ROLE_ADMIN')">-->
+<!--                <a class="nav-link" th:href="@{'/admin-panel'}">ADMIN PANEL</a>-->
+<!--            </li>-->
+<!--            <li class="nav-item dropdown">-->
+<!--                <a class="nav-link dropdown-toggle" href="#" id="navbarкDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">-->
+<!--                    Dropdown Menu-->
+<!--                </a>-->
+<!--                <ul class="dropdown-menu" aria-labelledby="navbarkDropdown">-->
+<!--                    <li><a class="dropdown-item" href="#">Item 1</a></li>-->
+<!--                    <li><a class="dropdown-item" href="#">Item 2</a></li>-->
+<!--                    <li><hr class="dropdown-divider"></li>-->
+<!--                    <li><a class="dropdown-item" href="#">Item 3</a></li>-->
+<!--                </ul>-->
+<!--            </li>-->
+
+<!--            <li class="nav-item dropdown" sec:authorize="isAuthenticated()" >-->
+<!--                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"-->
+<!--                   aria-haspopup="true" aria-expanded="false">-->
+<!--                    <span th:text="${#authentication.principal.fullname}"></span>-->
+
+<!--                </a>-->
+<!--                <div class="dropdown-menu" aria-labelledby="navbarDropdown">-->
+<!--                    <a class="dropdown-item" th:href="@{/books/genre/фантастика}">Фантастика</a>-->
+<!--                    <a class="dropdown-item" th:href="@{/books/genre/детектив}">Детектив</a>-->
+<!--                    <a class="dropdown-item" th:href="@{/books/genre/роман}">Роман</a>-->
+<!--                    <a class="dropdown-item" href="#">Sign out</a>-->
+
+<!--                </div>-->
+<!--            </li>-->
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" href="#">Контакты</a>-->
+<!--            </li>-->
+<!--        </ul>-->
+
+<!--        <form class="d-flex"  role="search" th:action="@{'/'}">-->
+<!--            <input class="form-control mr-sm-2" type="search"-->
+<!--                   placeholder="Поиск" aria-label="Search"-->
+<!--                   name="key"-->
+<!--                   th:value ="${param.key!=null?param.key:''}">-->
+<!--            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Найти</button>-->
+<!--        </form>-->
+<!--    </div>-->
+<!--</nav>-->
+
+<!-- Шапка с изображением -->
+<header class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">Добро пожаловать в Книжный магазин</h1>
+        <p class="lead">Здесь вы можете найти широкий выбор книг по различным тематикам.</p>
+    </div>
+</header>
+
+<!-- Карточки книг -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-3" >
+            <div layout:fragment="side-bar">
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div layout:fragment="siteContent">
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Подвал -->
+<footer th:insert="footer.html">
+</footer>
+
+<!-- Подключение скриптов Bootstrap и jQuery -->
+</body>
+<!--<script type="text/javascript" th:src="@{'/js/bootstrap.bundle.js'}"></script>-->
+<!--<script type="text/javascript" th:src="@{'/js/bootstrap.esm.js'}"></script>-->
+<!--<script type="text/javascript" th:src="@{'/js/bootstrap.js'}"></script>-->
+</html>

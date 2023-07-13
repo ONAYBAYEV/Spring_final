@@ -1,0 +1,95 @@
+   <!DOCTYPE html>
+
+    <html lang="en" xmlns:th="http://www.thymeleaf.org"
+          xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="main_layout.html">
+   <head th:insert="head.html">
+        <style>
+            body {
+                background-color: #f8f9fa;
+                padding: 20px;
+            }
+
+            .container {
+                max-width: 600px;
+                margin: auto;
+                background-color: #fff;
+                border-radius: 5px;
+                padding: 30px;
+            }
+
+            .form-group {
+                margin-bottom: 20px;
+            }
+
+            .form-group label {
+                font-weight: bold;
+            }
+
+            .form-control {
+                border-radius: 5px;
+            }
+
+            .btn-primary {
+                background-color: #007bff;
+                border-color: #007bff;
+            }
+
+            .btn-primary:hover {
+                background-color: #0069d9;
+                border-color: #0062cc;
+            }
+        </style>
+    </head>
+    <div class="container" layout:fragment="siteContent">
+              <div class="row">
+                    <div class="col-8 mx-auto">
+                        <div class="container mt-5" style="min-height: 800px" >
+                            <h1 class="mb-4">Add Book</h1>
+                            <form  th:action="@{'/add-book'}" method="post" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label for="img">Image:</label>
+                                    <input type="file" id="img" name="image" class="form-control">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="name">Name:</label>
+                                    <input type="text" id="name" name="name" class="form-control" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label >Author:</label>
+                                    <select class="form-select" name="authorModel_id">
+                                        <option th:each="author:${authors}" th:value="${author.id}"
+                                                th:text="${author.fullname +' / ' + author.nick_name}"></option>
+                                        <option></option>
+                                        <option></option>
+                                    </select>
+                                </div>
+
+                                <div class="form-floating">
+                                    <label>Description:</label>
+                                    <textarea class="form-control" placeholder="Leave a description here" id="floatingTextarea2" name="description" style="height: 100px" ></textarea>
+                                    <label for="floatingTextarea2">Description:</label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="publicationYear">Publication Year:</label>
+                                    <input type="number" id="publicationYear" name="publicationYear" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="price">price :</label>
+                                    <input type="number" id="price" name="price" class="form-control" required>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Add</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer th:insert="footer.html">
+    </footer>
+    </body>
+    </html>

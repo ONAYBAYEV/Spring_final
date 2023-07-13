@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="main_layout.html"
+      xmlns="http://www.w3.org/1999/html">
+<div layout:fragment="side-bar">
+  <table>
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Пользователь</th>
+      <th>Email</th>
+      <!-- Другие столбцы -->
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+      <td th:text="${user.id}"></td>
+      <td th:text="${user.fullname}"></td>
+      <td th:text="${user.email}"></td>
+      <td>
+        <form th:action="@{'/user/toggle/ban'}" method="post">
+          <input type="hidden" th:value="${user.id}" name="user_id">
+          <input type="hidden" th:value="${!user.isBanned}" name="ban">
+          <button class="btn btn-danger" th:if="${!user.isBanned}" th:text="Ban"></button>
+          <button class="btn btn-success" th:if="${user.isBanned}" th:text="Unban"></button>
+        </form>
+      </td>
+      <!-- Другие столбцы -->
+    </tr>
+    </tbody>
+  </table>
+</div>
+<div layout:fragment="siteContent">
+  <table>
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Название</th>
+      <th>Авторы</th>
+      <th>Описание</th>
+      <th>Дата издательства</th>
+      <th>Цены</th>
+      <!-- Другие столбцы -->
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${books}">
+      <td th:text="${book.id}"></td>
+      <td th:text="${book.name}"></td>
+      <td th:text="${book.authorModel.fullname}"></td>
+      <td th:text="${book.description}"></td>
+      <td th:text="${book.price}"></td>
+      <!-- Другие столбцы -->
+    </tr>
+    </tbody>
+  </table>
+</div>
+</html>

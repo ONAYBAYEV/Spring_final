@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="main_layout.html"
+      xmlns="http://www.w3.org/1999/html"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
+<head th:insert="head.html">
+<style>
+
+    .book-form {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+</style>
+</head>
+<body>
+<div class="container" layout:fragment="siteContent">
+    <div class="row" th:if="${kitap!=null}">
+       <div class="col-6">
+           <table class="table" >
+               <tr th:each="genre:${genres}">
+                 <form th:action="@{'/assign-genre'}" method="post">
+                     <input type="hidden" name="book_id" th:value="${kitap.id}">
+                     <input type="hidden" name="genre_id" th:value="${genre.id}">
+                     <td th:text="${genre.id}"></td>
+                     <td th:text="${genre.name}">
+                     <td>
+                         <button sec:authorize="hasAnyRole('ROLE_ADMIN')" class="btn btn-success btn-sm"> >>></button>
+                     </td>
+                 </form>
+               </tr>
+           </table>
+       </div>
+        <div class="col-6">
+            <table class="table" >
+                <tr th:each="genre:${kitap.genres}">
+                    <form th:action="@{'/unassign-genre'}" method="post">
+                        <input type="hidden" name="book_id" th:value="${kitap.id}">
+                        <input type="hidden" name="genre_id" th:value="${genre.id}">
+                        <td th:text="${genre.id}"></td>
+                        <td th:text="${genre.name}">
+                        <td>
+                            <button class="btn btn-danger btn-sm" sec:authorize="hasAnyRole('ROLE_ADMIN')"><<<</button>
+                        </td>
+                    </form>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+        <div class="row mt-5">
+                <div class="col-8 mx-auto">
+                        <div class="container mt-5 " style="min-height: 800px;" >
+                            <form method="post" action="/save-book" th:if="${kitap!=null}" class="book-form">
+                                <input type="hidden" name="id" th:value="${kitap.id}">
+                                <div class="form-group">
+                                    <label for="img">Изображение:</label>
+                                    <input type="file" id="img" name="img" class="form-control" th:value="${kitap.img}" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="name">Название:</label>
+                                    <input type="text" id="name" name="name" class="form-control" th:value="${kitap.name}" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="author">Автор:</label>
+                                    <select id="author" class="form-select" name="authorModel.id">
+                                        <option th:each="author:${authors}"
+                                                th:value="${author.id}"
+                                                th:selected="${kitap.authorModel.id==author.id}"
+                                                th:text="${author.fullname}"></option>
+                                        <option></option>
+                                        <option></option>
+                                    </select>
+                                </div>
+
+                                <div class="form-floating">
+                                    <textarea class="form-control" placeholder="Leave a description here" id="floatingTextarea2" name="description" style="height: 100px" ></textarea>
+                                    <label for="floatingTextarea2">Описание:</label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="publicationYear">Дата издательства:</label>
+                                    <input type="number" id="publicationYear" name="publicationYear" class="form-control" th:value="${kitap.publicationYear}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="price">Цена:</label>
+                                    <input type="number" id="price" name="price" class="form-control" th:value="${kitap.price}" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary"
+                                        sec:authorize="hasAnyRole('ROLE_ADMIN')" >Сохранить</button>
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                        sec:authorize="hasAnyRole('ROLE_ADMIN')">
+                                    Удалить
+                                </button>
+                            </form>
+                            <div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                 aria-labelledby="exampleModalLabel" aria-hidden="true" >
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form th:action="@{'/delete-book'}" method="post">
+                                         <input type="hidden" name="id" th:value="${kitap.id}">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Confirm Delete</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                        <h3 class="text-center">Вы уверены, что хотите удалить?</h3>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
+                                            <button  class="btn btn-danger">Да</button>
+                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                      </div>
+                </div>
+            </div>
+    </div>
+</div>
+<footer th:insert="footer.html">
+</footer>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="main_layout.html">
+<!-- Подключение стилей Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<body>
+   <div class="container" layout:fragment="sidebar"
+   th:insert="gorkiy">
+   </div>
+    <div class="container" layout:fragment="siteContent">
+        <div class="row">
+            <div class="col-md-4" th:each="book : ${books}">
+                <div class="card" style="width: 18rem;">
+                    <img th:src="${book.img}" style="height: 200px;width: auto" alt="kniga">
+                    <div class="card-body">
+                        <p class="card-text" th:text="${book.name}"></p>
+                        <p class="card-text" th:text="${book.authorModel.fullname}"></p>
+                        <p class="card-text" th:text="${book.description}"></p>
+                        <p class="card-text" th:text="${book.publicationYear}"></p>
+                        <h3 class="card-text" th:text="${book.price}">💵</h3>
+                        <a th:href="@{'/details/' +${book.id}}" class="btn btn-primary">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
