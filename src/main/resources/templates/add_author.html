@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="main_layout.html">
+<head th:insert="head.html">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+        }
+
+        .form-control {
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            padding: 8px;
+            width: 100%;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background-color: #0069d9;
+            border-color: #0062cc;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="side-bar">
+    <div class="container">
+        <form th:action="@{'/add-author'}" method="post">
+            <h3 class="text-center">Добавление автора</h3>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Имя автора:</label>
+                <input type="text" class="form-control" id="exampleFormControlInput1"name='fullname' >
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlInput2" class="form-label">Прозвище:</label>
+                <input type="text" class="form-control" id="exampleFormControlInput2"name='nick_name' >
+            </div>
+            <button type="submit" class="btn-primary">Добавить автора</button>
+        </form>
+    </div>
+</div>
+<footer th:insert="footer.html"></footer>
+</body>
+</html>

@@ -6,31 +6,28 @@ import book.store.model.GenreModel;
 import book.store.model.User;
 import book.store.service.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+
+
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 public class HomeController {
 
-    @Value("${books.images.path}")
-    private String booksImagesPath;
 
     private final BookService bookService;
-    private final AuthorService authorService;
+    private final AuthorService authorService; 
     private final GenreService genreService;
     private final UserService userService;
 
-    private final FileStorageService fileStorageService;
 
 
 
@@ -40,49 +37,7 @@ public class HomeController {
         model.addAttribute("books",bookService.searchBook(key));
         return "index";
     }
-    @GetMapping(value = "/addbooks")
-     public String addbooksPage(Model model){
-        model.addAttribute("authors",authorService.getAuthors());
-        return "addbooks";
-    }
 
-    @PostMapping(value = "/add-book")
-    public String addbook(@RequestParam(name = "name") String name,
-                        @RequestParam(name = "image") MultipartFile img,
-                        @RequestParam(name = "publicationYear")int publicationYear,
-                        @RequestParam(name = "price")int price,
-                        @RequestParam(name = "description") String description,
-                        @RequestParam(name = "authorModel_id") AuthorModel authorModel){
-
-        try{
-
-            BookModel book = new BookModel();
-
-            book.setName(name);
-            book.setPublicationYear(publicationYear);
-            book.setPrice(price);
-            book.setDescription(description);
-            book.setAuthorModel(authorModel);
-
-            if (!img.isEmpty()){
-                String fileName = fileStorageService.saveFile(img, booksImagesPath);
-                book.setImg(fileName);
-            }
-
-            BookModel newBook = bookService.addBook(book);
-
-            if (newBook != null) {
-                return "redirect:?/";
-            } else {
-                return "redirect:/books?error";
-            }
-
-        }catch (IOException e){
-            System.out.println(e);
-            return "redirect:/addbooks?error";
-        }
-
-    }
     @GetMapping(value ="/details/{bookId}")
     public String  bookDetails(@PathVariable(name = "bookId")Long id, Model model){
         BookModel book=bookService.getBook(id);
@@ -101,11 +56,7 @@ public class HomeController {
         bookService.saveBook(book);
         return "redirect:/";
     }
-    @PostMapping(value = "/delete-book")
-    public String deleteBook(@RequestParam(name = "id")Long id){
-        bookService.delete(id);
-        return "redirect:/";
-    }
+
 
 
     @GetMapping(value = "/403-page")

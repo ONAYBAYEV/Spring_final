@@ -12,11 +12,11 @@ import java.util.List;
 public interface BookMapper {
 
     @Mapping(source = "name",target = "title")
+
     BookDTO toDto(BookModel bookModel);
     @Mapping(source = "title",target = "name")
     BookModel toModel(BookDTO bookDTO);
 
     List<BookDTO>   toDtoList(List<BookModel> bookModelList);
-    List<BookModel> toModelList(List<BookDTO> bookDTOList);
 
 }

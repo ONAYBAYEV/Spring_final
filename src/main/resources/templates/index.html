@@ -1,12 +1,21 @@
 <!DOCTYPE html>
 
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="main_layout.html">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="main_layout.html"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
 <!-- Подключение стилей Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 <body>
-   <div class="container" layout:fragment="sidebar"
-   th:insert="gorkiy">
+   <div  layout:fragment="side-bar">
+       <p>
+           Любите книгу, она облегчает вам жизнь,
+           дружески поможет разобраться в пестрой и бурной путанице мыслей,
+           чувств, событий, она научит вас уважать человека и самих себя,
+           она окрыляет ум и сердце чувством любви к миру, к человечеству.
+
+       <h3> Максим Горький</h3>
+
+       </p>
    </div>
     <div class="container" layout:fragment="siteContent">
         <div class="row">
@@ -19,7 +28,7 @@
                         <p class="card-text" th:text="${book.description}"></p>
                         <p class="card-text" th:text="${book.publicationYear}"></p>
                         <h3 class="card-text" th:text="${book.price}">💵</h3>
-                        <a th:href="@{'/details/' +${book.id}}" class="btn btn-primary">Подробнее</a>
+                        <a th:href="@{'/details/' +${book.id}}" sec:authorize="isAuthenticated()" class="btn btn-primary">Подробнее</a>
                     </div>
                 </div>
             </div>

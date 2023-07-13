@@ -37,7 +37,17 @@
 </style>
 </head>
 <body>
-<div class="container" layout:fragment="siteContent">
+<div class="mt-8" layout:fragment="side-bar">
+    <p >
+        <b>
+        Учитесь и читайте.
+        Читайте книги серьезные.
+         Жизнь сделает остальное.
+    </b>
+    </p>
+    <h5 class="text-info text-center">Достаевкий Ф.М</h5>
+</div>
+<div class="container " layout:fragment="siteContent">
     <div class="row" th:if="${kitap!=null}">
        <div class="col-6">
            <table class="table" >
