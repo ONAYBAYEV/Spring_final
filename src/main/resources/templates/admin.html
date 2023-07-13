@@ -4,43 +4,42 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="main_layout.html"
       xmlns="http://www.w3.org/1999/html">
 <div layout:fragment="side-bar">
-  <table>
+  <table class="table table-bordered border-primary">
     <thead>
     <tr>
-      <th>ID</th>
-      <th>Пользователь</th>
-      <th>Email</th>
-      <!-- Другие столбцы -->
-    </tr>
+      <th scope="col">ID</th>
+      <th scope="col">Пользователь</th>
+      <th scope="col">Email</th>
+      <th scope="col">🔐</th>
+    </tr >
     </thead>
     <tbody>
     <tr th:each="user : ${users}">
-      <td th:text="${user.id}"></td>
+      <td th:text="${user.id}" ></td>
       <td th:text="${user.fullname}"></td>
       <td th:text="${user.email}"></td>
       <td>
         <form th:action="@{'/user/toggle/ban'}" method="post">
           <input type="hidden" th:value="${user.id}" name="user_id">
           <input type="hidden" th:value="${!user.isBanned}" name="ban">
-          <button class="btn btn-danger" th:if="${!user.isBanned}" th:text="Ban"></button>
-          <button class="btn btn-success" th:if="${user.isBanned}" th:text="Unban"></button>
+          <button class="btn btn-danger btn-sm" th:if="${!user.isBanned}" th:text="x"></button>
+          <button class="btn btn-success btn-sm" th:if="${user.isBanned}" th:text="o"></button>
         </form>
       </td>
-      <!-- Другие столбцы -->
     </tr>
     </tbody>
   </table>
 </div>
-<div layout:fragment="siteContent">
-  <table>
+<div  layout:fragment="siteContent">
+  <table class="table table-bordered border-primary">
     <thead>
     <tr>
-      <th>ID</th>
-      <th>Название</th>
-      <th>Авторы</th>
-      <th>Описание</th>
-      <th>Дата издательства</th>
-      <th>Цены</th>
+      <th scope="col">ID</th>
+      <th scope="col">Название</th>
+      <th scope="col">Авторы</th>
+      <th scope="col">Описание</th>
+      <th scope="col">Дата издательства</th>
+      <th scope="col">Цены</th>
       <!-- Другие столбцы -->
     </tr>
     </thead>
