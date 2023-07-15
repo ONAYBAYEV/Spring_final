@@ -117,6 +117,7 @@
                         <li sec:authorize="hasAnyRole('ROLE_ADMIN')"><a class="dropdown-item" th:href="@{'/addbooks'}">Добавить книгу </a></li>
                         <li sec:authorize="hasAnyRole('ROLE_ADMIN')"><a class="dropdown-item" th:href="@{'/authors/add'}">Добавить автор </a></li>
                         <li><a class="dropdown-item"th:href="@{/}">Главная</a></li>
+                        <li><a class="dropdown-item"th:href="@{'/profile'}">Профиль</a></li>
                         <li><a class="dropdown-item" sec:authorize="hasAnyRole('ROLE_ADMIN')" th:href="@{'/admin-panel'}">Панель админа</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" th:href="@{'/sign-in-page'}">Выйти</a></li>

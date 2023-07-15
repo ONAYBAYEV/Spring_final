@@ -7,27 +7,32 @@ import book.store.model.User;
 import book.store.service.*;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 
-
+import java.io.IOException;
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 public class HomeController {
 
+    @Value("${users.images.path}")
+    private String userImagesPath;
 
     private final BookService bookService;
     private final AuthorService authorService; 
     private final GenreService genreService;
     private final UserService userService;
-
+    private  final FileStorageService fileStorageService;
 
 
 
@@ -130,5 +135,22 @@ public class HomeController {
             return "redirect:/update-password-page?passwordmissmatch";
         }
     }
-
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping(value = "/update/user/")
+    public String updateUser(
+            @RequestParam("avatar") MultipartFile avatar,
+            @RequestParam("fullname") String fullname){
+        try {
+            User user = userService.getCurrentSessionUser();
+            user.setFullname(fullname);
+            if (!avatar.isEmpty()) {
+                String fileName =fileStorageService.saveFile(avatar, userImagesPath);
+                user.setAvatar(fileName);
+            }
+            userService.saveUser(user);
+            return "redirect:/profile";
+        } catch (IOException e) {
+            return "redirect:/profile/error";
+        }
+    }
 }

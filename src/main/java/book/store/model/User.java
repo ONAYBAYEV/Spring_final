@@ -32,6 +32,8 @@ public class User  implements UserDetails {
 
     @Column(name = "is_banned")
     private Boolean isBanned;
+    @Column(name = "avatar" ,columnDefinition = "TEXT")
+    private String avatar;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Permission> permissions;
@@ -68,5 +70,11 @@ public class User  implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+    public String loadUserAvatar(){
+        if(avatar == null || avatar.isEmpty()){
+            return "/avatars/noimage.png";
+        }
+        return avatar;
     }
 }
