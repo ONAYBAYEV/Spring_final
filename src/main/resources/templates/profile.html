@@ -30,6 +30,7 @@
           <div class="card-body">
             <form th:action="@{'/update/user/'}" method="post" enctype="multipart/form-data">
               <h5 class="display-5" th:text="${#authentication.principal.fullname}"></h5>
+              <h5 class="display-8" th:text="${#authentication.principal.email}"></h5>
               <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">Изменить имя:</label>
                 <input type="text" class="form-control" id="exampleFormControlInput1" name="fullname" >
