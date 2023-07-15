@@ -128,7 +128,7 @@ public class AdminController {
 
 
         if (newAuthor != null) {
-            return "redirect:/authors/add?succes";
+            return "redirect:/";
         } else {
             return "redirect:/authors/add?error";
         }

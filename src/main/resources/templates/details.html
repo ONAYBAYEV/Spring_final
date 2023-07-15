@@ -4,7 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="main_layout.html"
       xmlns="http://www.w3.org/1999/html"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
-<head th:insert="head.html">
+<head >
 <style>
 
     .book-form {
@@ -38,7 +38,7 @@
 </head>
 <body>
 <div class="mt-8" layout:fragment="side-bar">
-    <p >
+    <p class="lead">
         <b>
         Учитесь и читайте.
         Читайте книги серьезные.
@@ -78,13 +78,12 @@
                     </form>
                 </tr>
             </table>
-
         </div>
     </div>
         <div class="row mt-5">
                 <div class="col-8 mx-auto">
                         <div class="container mt-5 " style="min-height: 800px;" >
-                            <form method="post" action="/save-book" th:if="${kitap!=null}" class="book-form">
+                            <form method="post" th:action="@{'/save-book'}" th:if="${kitap!=null}" class="book-form">
                                 <input type="hidden" name="id" th:value="${kitap.id}">
                                 <div class="form-group">
                                     <label for="img">Изображение:</label>
@@ -107,9 +106,9 @@
                                         <option></option>
                                     </select>
                                 </div>
-
                                 <div class="form-floating">
-                                    <textarea class="form-control" placeholder="Leave a description here" id="floatingTextarea2" name="description" style="height: 100px" ></textarea>
+                                    <span>Описание:</span>
+                                    <textarea class="form-control" placeholder="Leave a description here" id="floatingTextarea2" name="description" th:value="${kitap.description}" style="height: 100px" ></textarea>
                                     <label for="floatingTextarea2">Описание:</label>
                                 </div>
                                 <div class="form-group">
@@ -134,7 +133,7 @@
                                         <form th:action="@{'/delete-book'}" method="post">
                                          <input type="hidden" name="id" th:value="${kitap.id}">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Confirm Delete</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Подтверждение удаление</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">

@@ -2,7 +2,7 @@
 
     <html lang="en" xmlns:th="http://www.thymeleaf.org"
           xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="main_layout.html">
-   <head th:insert="head.html">
+   <head >
         <style>
             body {
                 background-color: #f8f9fa;
@@ -41,7 +41,7 @@
         </style>
     </head>
    <div class="container" layout:fragment="side-bar">
-       <p>
+       <p class="lead">
            Человек - дитя своего времени.
            Если он плох, в этом виновны его современники.
        </p>
@@ -66,13 +66,11 @@
                                     <select class="form-select" name="authorModel_id">
                                         <option th:each="author:${authors}" th:value="${author.id}"
                                                 th:text="${author.fullname}"></option>
-                                        <option></option>
-                                        <option></option>
                                     </select>
                                 </div>
                                 <div class="form-floating">
+                                    <span>Описание:</span>
                                     <textarea class="form-control" placeholder="Leave a description here" id="floatingTextarea2" name="description" style="height: 100px" ></textarea>
-                                    <label for="floatingTextarea2">Описание:</label>
                                 </div>
                                 <div class="form-group">
                                     <label for="publicationYear">Дата издательства:</label>

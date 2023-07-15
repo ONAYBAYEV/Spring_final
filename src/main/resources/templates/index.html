@@ -7,13 +7,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 <body>
    <div  layout:fragment="side-bar">
-       <p>
-           Любите книгу, она облегчает вам жизнь,
+       <p class="lead">
+                 Любите книгу, она облегчает вам жизнь,
            дружески поможет разобраться в пестрой и бурной путанице мыслей,
            чувств, событий, она научит вас уважать человека и самих себя,
            она окрыляет ум и сердце чувством любви к миру, к человечеству.
-
-       <h3> Максим Горький</h3>
+       <h3 class="text-info"> Максим Горький</h3>
 
        </p>
    </div>
@@ -23,11 +22,11 @@
                 <div class="card" style="width: 18rem;">
                     <img th:src="${book.img}" style="height: 200px;width: auto" alt="kniga">
                     <div class="card-body">
-                        <p class="card-text" th:text="${book.name}"></p>
+                        <p class="card-title" th:text="${book.name}"></p>
                         <p class="card-text" th:text="${book.authorModel.fullname}"></p>
                         <p class="card-text" th:text="${book.description}"></p>
                         <p class="card-text" th:text="${book.publicationYear}"></p>
-                        <h3 class="card-text" th:text="${book.price}">💵</h3>
+                        <h3 class="card-text" th:text="${book.price+' 💵'}"></h3>
                         <a th:href="@{'/details/' +${book.id}}" sec:authorize="isAuthenticated()" class="btn btn-primary">Подробнее</a>
                     </div>
                 </div>
