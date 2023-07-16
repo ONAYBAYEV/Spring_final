@@ -24,6 +24,8 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class HomeController {
+    @Value("${books.images.path}")
+    private String booksImagesPath;
 
     @Value("${users.images.path}")
     private String userImagesPath;
@@ -57,9 +59,40 @@ public class HomeController {
         return "details";
     }
     @PostMapping(value = "/save-book")
-    public String saveBook(BookModel book){
-        bookService.saveBook(book);
-        return "redirect:/";
+    public String saveBook( @RequestParam(name = "id") Long id,
+                            @RequestParam(name = "name") String name,
+                           @RequestParam(name = "image") MultipartFile img,
+                           @RequestParam(name = "publicationYear")int publicationYear,
+                           @RequestParam(name = "price")int price,
+                           @RequestParam(name = "description") String description,
+                           @RequestParam(name = "authorModel_id") AuthorModel authorModel ){
+
+        try{
+            BookModel book = bookService.getBook(id);
+
+            book.setName(name);
+            book.setPublicationYear(publicationYear);
+            book.setPrice(price);
+            book.setDescription(description);
+            book.setAuthorModel(authorModel);
+
+            if (!img.isEmpty()){
+                String fileName = fileStorageService.saveFile(img, booksImagesPath);
+                book.setImg(fileName);
+            }
+
+            BookModel newBook = bookService.saveBook(book);
+
+            if (newBook != null) {
+                return "redirect:?/";
+            } else {
+                return "redirect:/books?error";
+            }
+
+        }catch (IOException e){
+            System.out.println(e);
+            return "redirect:/?error";
+        }
     }
 
 

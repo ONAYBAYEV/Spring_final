@@ -83,11 +83,11 @@
         <div class="row mt-5">
                 <div class="col-8 mx-auto">
                         <div class="container mt-5 " style="min-height: 800px;" >
-                            <form method="post" th:action="@{'/save-book'}" th:if="${kitap!=null}" class="book-form">
+                            <form method="post" th:action="@{'/save-book'}" th:if="${kitap!=null}" class="book-form" enctype="multipart/form-data">
                                 <input type="hidden" name="id" th:value="${kitap.id}">
                                 <div class="form-group">
                                     <label for="img">Изображение:</label>
-                                    <input type="file" id="img" name="img" class="form-control" th:value="${kitap.img}" required>
+                                    <input type="file" id="img" name="image" class="form-control" th:value="${kitap.img}" required>
                                 </div>
 
                                 <div class="form-group">
@@ -97,18 +97,17 @@
 
                                 <div class="form-group">
                                     <label for="author">Автор:</label>
-                                    <select id="author" class="form-select" name="authorModel.id">
+                                    <select id="author" class="form-select" name="authorModel_id">
                                         <option th:each="author:${authors}"
                                                 th:value="${author.id}"
                                                 th:selected="${kitap.authorModel.id==author.id}"
                                                 th:text="${author.fullname}"></option>
-                                        <option></option>
-                                        <option></option>
+
                                     </select>
                                 </div>
                                 <div class="form-floating">
                                     <span>Описание:</span>
-                                    <textarea class="form-control" placeholder="Leave a description here" id="floatingTextarea2" name="description" th:value="${kitap.description}" style="height: 100px" ></textarea>
+                                    <textarea class="form-control" placeholder="Leave a description here" id="floatingTextarea2" name="description" th:text="${kitap.description}" style="height: 100px" ></textarea>
                                     <label for="floatingTextarea2">Описание:</label>
                                 </div>
                                 <div class="form-group">

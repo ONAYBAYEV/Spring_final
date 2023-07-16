@@ -6,45 +6,32 @@
 <div layout:fragment="side-bar">
 
 </div>
-<div layout:fragment="siteContent">
-  <!--  <img th:src="${#authentication.principal.loadUserAvatar()}"-->
-  <!--       alt="Generic placeholder image" class="img-fluid img-thumbnail mb-2"-->
-  <!--       style="width: 150px; z-index: 1; margin-top: -50px">-->
-  <!--  <form th:action="@{'/update/user/'}" method="post" enctype="multipart/form-data">-->
-  <!--    <label for="full_name" class="col-md-4 col-lg-3 col-form-label">-->
-  <!--      <input name="fullname" type="text" class="form-control" id="full_name" th:value="${#authentication.principal.fullname}">-->
-  <!--    </label>-->
-  <!--    <label class="input-file">-->
-  <!--      <span class="input-file-text" type="text"></span>-->
-  <!--      <input type="file" name="avatar">-->
-  <!--    </label>-->
-  <!--    <button type="submit" class="btn btn-primary">Сохранить изменение</button>-->
-  <!--  </form>-->
-  <section >
-    <div class="card mb-3" style="max-width: 540px;">
-      <div class="row g-0">
-        <div class="col-md-4">
-          <img th:src="${#authentication.principal.loadUserAvatar()}" class="img-fluid rounded-start" >
-        </div>
-        <div class="col-md-8">
-          <div class="card-body">
-            <form th:action="@{'/update/user/'}" method="post" enctype="multipart/form-data">
-              <h5 class="display-5" th:text="${#authentication.principal.fullname}"></h5>
-              <h5 class="display-8" th:text="${#authentication.principal.email}"></h5>
-              <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Изменить имя:</label>
-                <input type="text" class="form-control" id="exampleFormControlInput1" name="fullname" >
-              </div>
+  <div layout:fragment="siteContent">
+    <section >
+      <div class="card mb-3" style="max-width: 540px;">
+        <div class="row g-0">
+          <div class="col-md-4">
+             <img th:src="${#authentication.principal.loadUserAvatar()}" class="img-fluid rounded-start" >
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <form th:action="@{'/update/user/'}" method="post" enctype="multipart/form-data">
+                <h5 class="display-5" th:text="${#authentication.principal.fullname}"></h5>
+                <h5 class="display-8" th:text="${#authentication.principal.email}"></h5>
                 <div class="mb-3">
-                <label for="exampleFormControlInput2" class="form-label">Изменить изображение:</label>
-                <input type="file" class="form-control" id="exampleFormControlInput2" name="avatar">
-              </div>
-            <button type="submit" class="btn btn-primary">Сохранить изменение</button>
-            </form>
+                  <label for="exampleFormControlInput1" class="form-label">Изменить имя:</label>
+                  <input type="text" class="form-control" id="exampleFormControlInput1" name="fullname" >
+                </div>
+                  <div class="mb-3">
+                  <label for="exampleFormControlInput2" class="form-label">Изменить изображение:</label>
+                  <input type="file" class="form-control" id="exampleFormControlInput2" name="avatar">
+                </div>
+              <button type="submit" class="btn btn-primary">Сохранить изменение</button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-</section>
+  </section>
 </div>
 </html>
